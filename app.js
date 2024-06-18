@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función para renderizar los productos en la galería
     function renderProducts() {
-        // Itera sobre cada producto y crea su correspondiente elemento HTML
+        // Corre sobre cada producto y crea su elemento HTML
         products.forEach(product => {
             const productDiv = document.createElement('div');
             productDiv.classList.add('product'); // Añade la clase 'product' al div
@@ -61,7 +61,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Renderiza de nuevo el carrito para mostrar los cambios
         rendercarrito();
     }
+    
+    const vaciarCarritoBtn = document.getElementById('vaciar-carrito');
 
+    vaciarCarritoBtn.addEventListener('click', () => {
+        // Vaciar el array carrito
+        carrito.length = 0; // Esto vacía el array sin crear uno nuevo, manteniendo la referencia
+        
+        // Volver a renderizar el carrito para que se muestre vacío
+        rendercarrito();
+    });
+    
     // Añade un listener a la galería de productos para detectar clicks en los botones
     productGallery.addEventListener('click', (event) => {
         // Verifica si el elemento clicado es un botón
