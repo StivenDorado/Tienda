@@ -1,6 +1,3 @@
-// script.js
-
-// Espera a que el contenido del DOM esté completamente cargado antes de ejecutar el script
 document.addEventListener('DOMContentLoaded', () => {
     // Definición de un array de productos, cada uno con id, nombre, precio e imagen
     const products = [
@@ -17,72 +14,76 @@ document.addEventListener('DOMContentLoaded', () => {
     const productGallery = document.getElementById('product-gallery');
     const carritoItems = document.getElementById('carrito-items');
     const carritoTotal = document.getElementById('carrito-total');
+    const vaciarCarritoBtn = document.getElementById('vaciar-carrito'); // Referencia al botón "Vaciar carrito"
 
     // Función para renderizar los productos en la galería
     function renderProducts() {
-        // Corre sobre cada producto y crea su elemento HTML
         products.forEach(product => {
             const productDiv = document.createElement('div');
-            productDiv.classList.add('product'); // Añade la clase 'product' al div
+            productDiv.classList.add('product');
             productDiv.innerHTML = `
                 <img src="${product.image}" alt="${product.name}">
                 <h3>${product.name}</h3>
                 <p>${product.price} €</p>
                 <button data-id="${product.id}">Agregar al carrito</button>
             `;
-            // Añade el div del producto a la galería de productos
             productGallery.appendChild(productDiv);
         });
     }
 
     // Función para renderizar el contenido del carrito
     function rendercarrito() {
-        // Limpia el contenido actual del carrito
         carritoItems.innerHTML = '';
         let total = 0;
-        // Itera sobre cada ítem del carrito y crea su correspondiente elemento HTML
         carrito.forEach(item => {
             const carritoItem = document.createElement('li');
             carritoItem.textContent = `${item.name} - ${item.price} €`;
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'X';
+            deleteButton.classList.add('productdelete');
+            deleteButton.addEventListener('click', () => {
+                removeFromCarrito(item.id);
+            });
+            carritoItem.appendChild(deleteButton);
             carritoItems.appendChild(carritoItem);
-            // Suma el precio del ítem al total
             total += item.price;
         });
-        // Actualiza el total en el DOM
         carritoTotal.textContent = total;
     }
 
     // Función para añadir un producto al carrito
     function addTocarrito(productId) {
-        // Encuentra el producto en el array de productos usando su id
         const product = products.find(prod => prod.id === productId);
-        // Añade el producto al array del carrito
         carrito.push(product);
-        // Renderiza de nuevo el carrito para mostrar los cambios
         rendercarrito();
     }
-    
-    const vaciarCarritoBtn = document.getElementById('vaciar-carrito');
 
-    vaciarCarritoBtn.addEventListener('click', () => {
-        // Vaciar el array carrito
-        carrito.length = 0; // Esto vacía el array sin crear uno nuevo, manteniendo la referencia
-        
-        // Volver a renderizar el carrito para que se muestre vacío
+    // Función para eliminar un producto del carrito
+    function removeFromCarrito(productId) {
+        const index = carrito.findIndex(item => item.id === productId);
+        if (index !== -1) {
+            carrito.splice(index, 1);
+        }
         rendercarrito();
-    });
-    
-    // Añade un listener a la galería de productos para detectar clicks en los botones
+    }
+
+    // Función para vaciar completamente el carrito
+    function vaciarCarrito() {
+        carrito.length = 0; // Vacía el array 'carrito'
+        rendercarrito(); // Vuelve a renderizar el carrito para mostrar que está vacío
+    }
+
+    // Listener para el botón "Vaciar carrito"
+    vaciarCarritoBtn.addEventListener('click', vaciarCarrito);
+
+    // Listener para agregar productos al carrito desde la galería
     productGallery.addEventListener('click', (event) => {
-        // Verifica si el elemento clicado es un botón
         if (event.target.tagName === 'BUTTON') {
-            // Obtiene el id del producto del atributo data-id del botón
             const productId = parseInt(event.target.getAttribute('data-id'));
-            // Añade el producto al carrito
             addTocarrito(productId);
         }
     });
 
-    // Renderiza los productos al cargar la página
+    // Renderiza los productos en la galería al cargar la página
     renderProducts();
 });
