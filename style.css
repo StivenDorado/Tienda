@@ -1,3 +1,4 @@
+/* Estilos generales para el cuerpo */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -8,6 +9,7 @@ body {
     background-color: #0f0f0fee;
 }
 
+/* Encabezado de la página */
 header {
     display: flex;
     justify-content: space-between;
@@ -16,14 +18,18 @@ header {
     background-color: #0000007a;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-#logo{
+
+/* Logo del encabezado */
+#logo {
     height: 150px;
 }
 
-img{
+/* Imágenes */
+img {
     height: 30px;
 }
 
+/* Estilos del carrito */
 #carrito {
     width: 300px;
     border: 1px solid #ccc;
@@ -33,18 +39,20 @@ img{
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* Título del carrito */
 #carrito h2 {
     margin-top: 0;
 }
 
+/* Galería de productos */
 #product-gallery {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     margin-top: 20px;
-    
 }
 
+/* Estilos para cada producto */
 .product {
     border: 1px solid #505050;
     border-radius: 5px;
@@ -56,11 +64,13 @@ img{
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* Imágenes dentro de los productos */
 .product img {
     max-width: 100%;
     height: auto;
 }
 
+/* Botones de los productos */
 .product button {
     background-color: #05283ad3;
     color: rgb(0, 0, 0);
@@ -70,6 +80,7 @@ img{
     border-radius: 5px;
 }
 
+/* Estilo del botón al pasar el cursor */
 .product button:hover {
     background-color: #213e88;
 }
