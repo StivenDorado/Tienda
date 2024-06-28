@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Definición de un array de productos, cada uno con id, nombre, precio e imagen
     const products = [
-        { id: 1, name: 'Producto 1', price: 10, image: 'img/Aston Martin.jpg' },
-        { id: 2, name: 'Producto 2', price: 20, image: 'img/Audi-R8.jpg' },
-        { id: 3, name: 'Producto 3', price: 30, image: 'img/Ferrari.jpg' },
-        { id: 4, name: 'Producto 4', price: 40, image: 'img/Porsche.jpg' }
+        { id: 1, name: 'Aston Martin', price: 10.000, image: 'img/Aston Martin.jpg' },
+        { id: 2, name: 'Audi R8', price: 20.000, image: 'img/Audi-R8.jpg' },
+        { id: 3, name: 'Ferrari Enzo', price: 30.000, image: 'img/Ferrari.jpg' },
+        { id: 4, name: 'Porsche GTR3', price: 40.000, image: 'img/Porsche.jpg' }
     ];
 
     // Inicialización de un array vacío para almacenar los productos en el carrito
@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const carritoItems = document.getElementById('carrito-items');
     const carritoTotal = document.getElementById('carrito-total');
     const vaciarCarritoBtn = document.getElementById('vaciar-carrito'); // Referencia al botón "Vaciar carrito"
+    const aplicarDescuentoBtn = document.getElementById('aplicar-descuento'); // Referencia al botón "Aplicar descuento"
 
     // Función para renderizar los productos en la galería
     function renderProducts() {
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             productDiv.innerHTML = `
                 <img src="${product.image}" alt="${product.name}">
                 <h3>${product.name}</h3>
-                <p>${product.price} €</p>
+                <p>${product.price.toFixed(3)} $</p>   
                 <button data-id="${product.id}">Agregar al carrito</button>
             `;
             productGallery.appendChild(productDiv);
@@ -34,10 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para renderizar el contenido del carrito
     function rendercarrito() {
         carritoItems.innerHTML = '';
-        let total = 0;
+        let total = 0; 
         carrito.forEach(item => {
             const carritoItem = document.createElement('li');
-            carritoItem.textContent = `${item.name} - ${item.price} €`;
+            carritoItem.textContent = `${item.name} - ${item.price.toFixed(3)} $`;
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'X';
             deleteButton.classList.add('productdelete');
@@ -46,10 +47,25 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             carritoItem.appendChild(deleteButton);
             carritoItems.appendChild(carritoItem);
-            total += item.price;
+            
+            total += item.price; 
         });
-        carritoTotal.textContent = total;
+        
+        carritoTotal.textContent = total.toFixed(3) + ' $'; 
     }
+
+    // Función para aplicar un descuento del 50% al total
+    function applyDiscount() {
+        let total = 0;
+        carrito.forEach(item => {
+            total += item.price; 
+        });
+        const descuentoTotal = (total * 0.5).toFixed(3); 
+        carritoTotal.textContent = `${descuentoTotal} $`; // Muestra el total con descuento
+    }
+
+    // Listener para el botón "Aplicar descuento"
+    aplicarDescuentoBtn.addEventListener('click', applyDiscount);
 
     // Función para añadir un producto al carrito
     function addTocarrito(productId) {
@@ -75,6 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Listener para el botón "Vaciar carrito"
     vaciarCarritoBtn.addEventListener('click', vaciarCarrito);
+
+    
 
     // Listener para agregar productos al carrito desde la galería
     productGallery.addEventListener('click', (event) => {
